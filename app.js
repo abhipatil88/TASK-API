@@ -1,5 +1,8 @@
 const express = require('express');
 
+const sql = require('./Db.js');
+
+require('dotenv').config();
 const app = express();
 
 app.use(express.json());
@@ -29,7 +32,7 @@ app.post('/tasks', (req, res) => {
     });
 });
 
-// 👉 PUT: Update a task by index
+// PUT: Update a task by index
 app.put('/tasks/:index', (req, res) => {
     const index = parseInt(req.params.index);
 
