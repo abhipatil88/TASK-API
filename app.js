@@ -5,6 +5,8 @@ require('dotenv').config();
 const app = express();
 app.use(express.json());
 
+app.use(express.static('public'));
+
 // GET: Retrieve all tasks from the database
 app.get('/tasks', async (req, res) => {
     try {
