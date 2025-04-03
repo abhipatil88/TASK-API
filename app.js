@@ -4,6 +4,12 @@ const sql = require('./Db.js');
 require('dotenv').config();
 
 const app = express();
+const corsOptions = {
+    origin: 'https://task-api-1-rh48.onrender.com', // Your frontend URL
+    optionsSuccessStatus: 200 // For legacy browser support
+  };
+  
+  app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use(express.static('public'));
