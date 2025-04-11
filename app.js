@@ -5,10 +5,10 @@ require('dotenv').config();
 
 const app = express();
 
-// ✅ Correct CORS setup
+// CORS setup
 const allowedOrigins = [
-    'https://task-api-azure.vercel.app', // ✅ Your frontend deployed on Vercel
-    'http://localhost:3000'              // ✅ Local dev (optional)
+    'https://task-api-azure.vercel.app', //  frontend deployed on Vercel
+    'http://localhost:3000'              // Local dev (optional)
 ];
 
 const corsOptions = {
@@ -27,7 +27,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.static('public'));
 
-// ✅ ROUTES
+//  ROUTES
 
 // GET: Retrieve all tasks
 app.get('/tasks', async (req, res) => {
