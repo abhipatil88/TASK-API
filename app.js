@@ -4,17 +4,32 @@ const sql = require('./Db.js');
 require('dotenv').config();
 
 const app = express();
-const corsOptions = {
-    origin: 'https://task-api-azure.vercel.app/', // Your frontend URL
-    optionsSuccessStatus: 200 // For legacy browser support
-  };
-  
-  app.use(cors(corsOptions));
-app.use(express.json());
 
+// ✅ Correct CORS setup
+const allowedOrigins = [
+    'https://task-api-azure.vercel.app', // ✅ Your frontend deployed on Vercel
+    'http://localhost:3000'              // ✅ Local dev (optional)
+];
+
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    optionsSuccessStatus: 200,
+    credentials: true
+};
+
+app.use(cors(corsOptions));
+app.use(express.json());
 app.use(express.static('public'));
 
-// GET: Retrieve all tasks from the database
+// ✅ ROUTES
+
+// GET: Retrieve all tasks
 app.get('/tasks', async (req, res) => {
     try {
         const tasks = await sql`SELECT * FROM tasks ORDER BY id ASC`;
@@ -25,7 +40,7 @@ app.get('/tasks', async (req, res) => {
     }
 });
 
-// POST: Add a new task to the database
+// POST: Add new task
 app.post('/tasks', async (req, res) => {
     try {
         if (!req.body.newTask) {
@@ -39,7 +54,7 @@ app.post('/tasks', async (req, res) => {
     }
 });
 
-// PUT: Update a task in the database
+// PUT: Update task
 app.put('/tasks/:taskId', async (req, res) => {
     try {
         if (!req.body.updatedTask) {
@@ -54,7 +69,7 @@ app.put('/tasks/:taskId', async (req, res) => {
     }
 });
 
-// DELETE: Remove a task from the database
+// DELETE: Remove task
 app.delete('/tasks/:taskId', async (req, res) => {
     try {
         const { taskId } = req.params;
@@ -66,7 +81,7 @@ app.delete('/tasks/:taskId', async (req, res) => {
     }
 });
 
-// Start the server
+// Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server started at http://localhost:${PORT}`);
