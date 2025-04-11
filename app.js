@@ -5,7 +5,7 @@ require('dotenv').config();
 
 const app = express();
 const corsOptions = {
-    origin: 'https://task-api-1-rh48.onrender.com', // Your frontend URL
+    origin: 'https://task-api-azure.vercel.app/', // Your frontend URL
     optionsSuccessStatus: 200 // For legacy browser support
   };
   
